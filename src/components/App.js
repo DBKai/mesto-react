@@ -1,11 +1,9 @@
-import logo from './images/logo.svg';
+import Header from './Header';
 
 function App() {
   return (
     <div class="page">
-  <header class="header">
-    <img class="header__logo" src={logo} alt="Логотип Mesto" />
-  </header>
+      <Header />
   <main class="content">
     <section class="profile">
       <button class="profile__avatar-edit" type="button" aria-label="Изменить аватар профиля">
