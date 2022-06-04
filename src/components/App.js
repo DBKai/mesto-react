@@ -1,25 +1,11 @@
 import Header from './Header';
+import Main from './Main';
 
 function App() {
   return (
     <div class="page">
       <Header />
-  <main class="content">
-    <section class="profile">
-      <button class="profile__avatar-edit" type="button" aria-label="Изменить аватар профиля">
-        <img class="profile__avatar" alt="Аватар профиля" />
-      </button>
-      <div class="profile__info">
-        <div class="profile__info-container">
-          <h1 class="profile__name"></h1>
-          <button class="profile__edit" type="button" aria-label="Редактировать профиль"></button>
-        </div>
-        <p class="profile__about"></p>
-      </div>
-      <button class="profile__card-add" type="button" aria-label="Добавить изображение"></button>
-    </section>
-    <section class="cards" aria-label="Блок с изображениями"> </section>
-  </main>
+      <Main />
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
