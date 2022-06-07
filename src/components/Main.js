@@ -1,23 +1,26 @@
 import React from "react";
-import { api } from "../utils/Api";
+import { api } from "../utils/api";
+import Card from "./Card";
 
 function Main(props) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    // Код выполнится при монтировании компонента
+    // Код выполнится один раз при монтировании компонента
     Promise.all([api.getUserInfo(), api.getCards()])
       .then(([user, cards]) => {
         setUserName(user.name);
         setUserDescription(user.about);
         setUserAvatar(user.avatar);
+        setCards(cards);
       })
       .catch(err => {
-        console.log(`Ошибка: ${ err }`);
+        console.log(`Ошибка: ${err}`);
       });
-  });
+  }, []);
 
   return(
     <main className="content">
@@ -37,7 +40,13 @@ function Main(props) {
         <button className="profile__card-add" type="button" aria-label="Добавить изображение"
                 onClick={props.onAddPlace}></button>
       </section>
-      <section className="cards" aria-label="Блок с изображениями"></section>
+      <section className="cards" aria-label="Блок с изображениями">
+        {
+          cards.map((item) => {
+              return <Card key={item._id} card={item} onCardClick={props.onCardClick} />
+          })
+        }
+      </section>
     </main>
   );
 }

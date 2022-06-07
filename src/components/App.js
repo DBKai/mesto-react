@@ -9,6 +9,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -26,6 +27,11 @@ function App() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+    setSelectedCard({});
+  }
+
+  function handleCardClick(clickedCard) {
+    setSelectedCard(clickedCard)
   }
 
   React.useEffect( () => {
@@ -43,7 +49,8 @@ function App() {
       <Header />
       <Main onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick} />
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick} />
       <Footer />
       <PopupWithForm name="avatar" title="Обновить аватар"
                      isOpen={isEditAvatarPopupOpen}
@@ -54,21 +61,7 @@ function App() {
       <PopupWithForm name="card" title="Новое место"
                      isOpen={isAddPlacePopupOpen}
                      onClose={closeAllPopups} />
-      <ImagePopup />
-
-      <template id="card-template">
-        <article className="card">
-          <button className="card__remove" type="button" aria-label="Удалить изображение"></button>
-          <img className="card__image" />
-            <div className="card__caption">
-              <h2 className="card__title"></h2>
-              <div className="card__like-container">
-                <button className="card__like" type="button" aria-label="Отметить изображение как понравившееся"></button>
-                <p className="card__like-count">0</p>
-              </div>
-            </div>
-        </article>
-      </template>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
   </div>
 );
 }

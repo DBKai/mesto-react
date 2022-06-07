@@ -1,9 +1,6 @@
 function PopupWithForm(props) {
-
   function handleClosePopup(event) {
-    if (event.target === event.currentTarget) {
-      props.onClose();
-    }
+    if (event.target === event.currentTarget) props.onClose();
   }
 
   return(
@@ -11,7 +8,7 @@ function PopupWithForm(props) {
          onMouseDown={handleClosePopup}>
       <div className="popup__container">
         <button className="popup__close" type="button" aria-label="Закрыть попап"
-                onMouseDown={handleClosePopup}></button>
+                onClick={props.onClose}></button>
         <h2 className="popup__heading">{props.title}</h2>
         <form name={props.name} className="popup__form" noValidate>
           {props.children}
