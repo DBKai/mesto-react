@@ -10,7 +10,7 @@ class Api {
         authorization: this._token
       }
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   getCards() {
@@ -19,7 +19,7 @@ class Api {
         authorization: this._token
       }
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   setUserInfo({ name, about }) {
@@ -34,7 +34,7 @@ class Api {
         about
       })
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   addCard({ name, link }) {
@@ -49,7 +49,7 @@ class Api {
         link
       })
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   removeCard(cardId) {
@@ -59,7 +59,7 @@ class Api {
         authorization: this._token
       },
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   addLikeCard(cardId) {
@@ -69,7 +69,7 @@ class Api {
         authorization: this._token
       },
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   removeLikeCard(cardId) {
@@ -79,7 +79,7 @@ class Api {
         authorization: this._token
       },
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
   setUserAvatar(link) {
@@ -93,10 +93,10 @@ class Api {
         avatar: link
       })
     })
-      .then(this._getJson)
+      .then(this._checkResponse)
   }
 
-  _getJson(res) {
+  _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }

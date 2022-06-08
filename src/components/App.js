@@ -6,27 +6,27 @@ import ImagePopup from "./ImagePopup";
 import React from "react";
 
 function App() {
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setEditProfilePopupOpen(true);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setAddPlacePopupOpen(true);
+    setIsAddPlacePopupOpen(true);
   }
 
   function closeAllPopups() {
-    setEditAvatarPopupOpen(false);
-    setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
     setSelectedCard({});
   }
 
@@ -42,28 +42,82 @@ function App() {
     }
 
     document.addEventListener('keyup', handleEscClose);
-  });
+
+    return () => {
+      document.removeEventListener('keyup', handleEscClose);
+    };
+  }, []);
 
   return (
-    <div className="page">
+    <>
       <Header />
       <Main onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick} />
       <Footer />
-      <PopupWithForm name="avatar" title="Обновить аватар"
+      <PopupWithForm name="avatar"
+                     title="Обновить аватар"
+                     submitBtnText="Сохранить"
                      isOpen={isEditAvatarPopupOpen}
-                     onClose={closeAllPopups} />
-      <PopupWithForm name="profile" title="Редактировать профиль"
+                     onClose={closeAllPopups}>
+        <input id="avatar-link"
+               name="avatar"
+               className="popup__item"
+               type="url"
+               placeholder="Ссылка на аватар"
+               required />
+        <span id="avatar-link-error" className="popup__item-error"></span>
+      </PopupWithForm>
+      <PopupWithForm name="profile"
+                     title="Редактировать профиль"
+                     submitBtnText="Сохранить"
                      isOpen={isEditProfilePopupOpen}
-                     onClose={closeAllPopups} />
-      <PopupWithForm name="card" title="Новое место"
+                     onClose={closeAllPopups}>
+        <input id="profile-name"
+               name="name"
+               className="popup__item"
+               type="text"
+               placeholder="Имя"
+               minLength="2"
+               maxLength="40"
+               required />
+        <span id="profile-name-error" className="popup__item-error"></span>
+        <input id="profile-about"
+               name="about"
+               className="popup__item"
+               type="text"
+               placeholder="О себе"
+               minLength="2"
+               maxLength="200"
+               required />
+        <span id="profile-about-error" className="popup__item-error"></span>
+      </PopupWithForm>
+      <PopupWithForm name="card"
+                     title="Новое место"
+                     submitBtnText="Создать"
                      isOpen={isAddPlacePopupOpen}
-                     onClose={closeAllPopups} />
+                     onClose={closeAllPopups}>
+        <input id="card-name"
+               name="name"
+               className="popup__item"
+               type="text"
+               placeholder="Название"
+               minLength="2"
+               maxLength="30"
+               required />
+        <span id="card-name-error" className="popup__item-error"></span>
+        <input id="card-link"
+               name="link"
+               className="popup__item"
+               type="url"
+               placeholder="Ссылка на картинку"
+               required />
+        <span id="card-link-error" className="popup__item-error"></span>
+      </PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-  </div>
-);
+    </>
+  );
 }
 
 export default App;

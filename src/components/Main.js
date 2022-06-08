@@ -2,11 +2,14 @@ import React from "react";
 import { api } from "../utils/api";
 import Card from "./Card";
 
-function Main(props) {
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
+  const cardsElements = cards.map((card) => {
+    return <Card key={card._id} card={card} onCardClick={onCardClick} />
+  });
 
   React.useEffect(() => {
     // Код выполнится один раз при монтировании компонента
@@ -25,28 +28,28 @@ function Main(props) {
   return(
     <main className="content">
       <section className="profile">
-        <button className="profile__avatar-edit" type="button" aria-label="Изменить аватар профиля"
-                onClick={props.onEditAvatar}>
+        <button className="profile__avatar-edit"
+                type="button"
+                aria-label="Изменить аватар профиля"
+                onClick={onEditAvatar}>
           <img className="profile__avatar" alt="Аватар профиля" src={userAvatar}/>
         </button>
         <div className="profile__info">
           <div className="profile__info-container">
             <h1 className="profile__name">{userName}</h1>
-            <button className="profile__edit" type="button" aria-label="Редактировать профиль"
-                    onClick={props.onEditProfile}></button>
+            <button className="profile__edit"
+                    type="button"
+                    aria-label="Редактировать профиль"
+                    onClick={onEditProfile}></button>
           </div>
           <p className="profile__about">{userDescription}</p>
         </div>
-        <button className="profile__card-add" type="button" aria-label="Добавить изображение"
-                onClick={props.onAddPlace}></button>
+        <button className="profile__card-add"
+                type="button"
+                aria-label="Добавить изображение"
+                onClick={onAddPlace}></button>
       </section>
-      <section className="cards" aria-label="Блок с изображениями">
-        {
-          cards.map((item) => {
-              return <Card key={item._id} card={item} onCardClick={props.onCardClick} />
-          })
-        }
-      </section>
+      <section className="cards" aria-label="Блок с изображениями">{cardsElements}</section>
     </main>
   );
 }
