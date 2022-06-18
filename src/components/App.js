@@ -48,7 +48,7 @@ function App() {
     api.getUserInfo()
       .then(user => {
         setCurrentUser({
-          _id: user.id,
+          _id: user._id,
           name: user.name,
           about: user.about,
           avatar: user.avatar
