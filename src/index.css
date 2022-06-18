@@ -18,11 +18,13 @@
 @import './blocks/card/__image/card__image.css';
 @import './blocks/card/__caption/card__caption.css';
 @import './blocks/card/__title/card__title.css';
-@import './blocks/card/__like/card__like.css';
+@import './blocks/card/__like-button/card__like-button.css';
 @import './blocks/card/__like-count/card__like-count.css';
 @import './blocks/card/__like-container/card__like-container.css';
-@import './blocks/card/__like/_active/card__like_active.css';
-@import './blocks/card/__remove/card__remove.css';
+@import './blocks/card/__like-button/_active/card__like-button_active.css';
+@import './blocks/card/__remove-button/card__remove-button.css';
+@import './blocks/card/__remove-button/_visible/card__remove-button_visible.css';
+@import './blocks/card/__remove-button/_hidden/card__remove-button_hidden.css';
 @import './blocks/footer/footer.css';
 @import './blocks/footer/__copyright/footer__copyright.css';
 @import './blocks/popup/popup.css';

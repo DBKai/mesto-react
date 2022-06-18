@@ -4,12 +4,15 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React from "react";
+import { api } from "../utils/api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -35,11 +38,25 @@ function App() {
   }
 
   React.useEffect( () => {
+    // Код выполнится один раз при монтировании компонента
     function handleEscClose(event) {
       if (event.key === "Escape") {
         closeAllPopups();
       }
     }
+
+    api.getUserInfo()
+      .then(user => {
+        setCurrentUser({
+          _id: user.id,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar
+        });
+      })
+      .catch(err => {
+        console.log(`Ошибка: ${ err }`);
+      });
 
     document.addEventListener('keyup', handleEscClose);
 
@@ -49,7 +66,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Header />
       <Main onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -116,7 +133,7 @@ function App() {
         <span id="card-link-error" className="popup__item-error"></span>
       </PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 

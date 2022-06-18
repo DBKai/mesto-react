@@ -1,19 +1,16 @@
-.card__remove {
-  width: 18px;
+.card__like-button {
+  width: 22px;
   height: 19px;
   margin: 0;
   padding: 0;
   border: none;
-  background-image: url(../../../images/trash.svg);
+  background-image: url(../../../images/heart.svg);
   background-color: transparent;
   background-repeat: no-repeat;
   transition: opacity 0.2s ease-out;
   cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
 }
 
-.card__remove:hover {
-  opacity: 0.6;
+.card__like-button:hover {
+  opacity: 0.5;
 }
