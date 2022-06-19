@@ -1,44 +1,16 @@
 import React from "react";
-import { api } from "../utils/api";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
-  const [cards, setCards] = React.useState([]);
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete}) {
+  const currentUser = React.useContext(CurrentUserContext);
   const cardsElements = cards.map((card) => {
     return <Card key={card._id}
       card={card}
       onCardClick={onCardClick}
-      onCardLike={handleCardLike}
-      onCardDelete={handleCardDelete} />
+      onCardLike={onCardLike}
+      onCardDelete={onCardDelete} />
   });
-  const currentUser = React.useContext(CurrentUserContext);
-
-  function handleCardLike (card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    api.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
-  }
-
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter(c => c._id !== card._id));
-    });
-  }
-
-  React.useEffect(() => {
-    // Код выполнится один раз при монтировании компонента
-    api.getCards()
-      .then(cards => {
-        setCards(cards);
-      })
-      .catch(err => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
 
   return(
     <main className="content">
