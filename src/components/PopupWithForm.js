@@ -1,4 +1,4 @@
-function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children}) {
+function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, onSubmit}) {
   function handleClosePopup(event) {
     if (event.target === event.currentTarget) onClose();
   }
@@ -12,7 +12,7 @@ function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children}) 
                 aria-label="Закрыть попап"
                 onClick={onClose}></button>
         <h2 className="popup__heading">{title}</h2>
-        <form name={name} className="popup__form" noValidate>
+        <form name={name} className="popup__form" onSubmit={onSubmit} noValidate>
           <fieldset className="popup__item-container">
             {children}
           </fieldset>
