@@ -38,14 +38,14 @@ function App() {
     setSelectedCard(clickedCard)
   }
 
-  function handleUpdateUser() {
-    api.setUserInfo({
-      name: currentUser.name,
-      about: currentUser.about
-    })
+  function handleUpdateUser({name, about}) {
+    api.setUserInfo({ name, about })
       .then(res => {
-        currentUser.name = res.name;
-        currentUser.about = res.about;
+        setCurrentUser({
+          name: res.name,
+          about: res.about,
+          avatar: res.avatar
+        });
         closeAllPopups();
       });
   }
