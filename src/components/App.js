@@ -7,6 +7,7 @@ import React from "react";
 import { api } from "../utils/api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -50,6 +51,18 @@ function App() {
       });
   }
 
+  function handleUpdateAvatar({avatar}) {
+    api.setUserAvatar(avatar)
+      .then(user => {
+        setCurrentUser({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar
+        });
+      });
+    closeAllPopups();
+  }
+
   React.useEffect( () => {
     // Код выполнится один раз при монтировании компонента
     function handleEscClose(event) {
@@ -87,21 +100,10 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick} />
       <Footer />
-      <PopupWithForm
-        name="avatar"
-        title="Обновить аватар"
-        submitBtnText="Сохранить"
+      <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}>
-        <input
-          id="avatar-link"
-          name="avatar"
-          className="popup__item"
-          type="url"
-          placeholder="Ссылка на аватар"
-          required />
-        <span id="avatar-link-error" className="popup__item-error"></span>
-      </PopupWithForm>
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}/>
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}

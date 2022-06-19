@@ -16,7 +16,7 @@ function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, o
           <fieldset className="popup__item-container">
             {children}
           </fieldset>
-          <button className="popup__button popup__button_inactive" disabled>{submitBtnText}</button>
+          <button className="popup__button">{submitBtnText}</button>
         </form>
       </div>
     </div>

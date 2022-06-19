@@ -62,7 +62,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
         required />
       <span id="profile-about-error" className="popup__item-error"></span>
     </PopupWithForm>
-  )
+  );
 }
 
 export default EditProfilePopup;
