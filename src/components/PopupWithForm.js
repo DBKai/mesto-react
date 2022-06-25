@@ -1,7 +1,9 @@
-function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, onSubmit}) {
+function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, onSubmit, isValid}) {
   function handleClosePopup(event) {
     if (event.target === event.currentTarget) onClose();
   }
+
+  const submitButtonClassName = (`popup__button ${!isValid && "popup__button_inactive"}`);
 
   return(
     <div className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`}
@@ -16,7 +18,7 @@ function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, o
           <fieldset className="popup__item-container">
             {children}
           </fieldset>
-          <button className="popup__button">{submitBtnText}</button>
+          <button className={submitButtonClassName} disabled={!isValid}>{submitBtnText}</button>
         </form>
       </div>
     </div>

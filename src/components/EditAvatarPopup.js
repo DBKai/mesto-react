@@ -1,10 +1,12 @@
 import PopupWithForm from "./PopupWithForm";
-import React from "react";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import {useEffect, useRef, useState} from "react";
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
-  const avatarRef = React.useRef();
-  const currentUser = React.useContext(CurrentUserContext);
+  const avatarRef = useRef();
+  const [isValid, setIsValid] = useState(false);
+  const [isValidAvatar, setIsValidAvatar] = useState(true);
+  const [avatarError, setAvatarError] = useState("");
+  const avatarErrorClassName = (`popup__item-error ${!isValidAvatar && "popup__item_type_error"}`);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -14,9 +16,19 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
     });
   }
 
-  React.useEffect(() => {
-    avatarRef.current.value = currentUser.avatar;
-  }, [currentUser]);
+  function handleChange(event) {
+    const input = event.target;
+    const form = input.closest('.popup__form');
+    setIsValidAvatar(input.validity.valid);
+    setAvatarError(input.validationMessage);
+    setIsValid(form.checkValidity());
+  }
+
+  useEffect(() => {
+    avatarRef.current.value = "";
+    setIsValidAvatar(true);
+    setIsValid(false);
+  }, [isOpen]);
 
   return(
     <PopupWithForm
@@ -25,7 +37,8 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
       submitBtnText="Сохранить"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isValid={isValid}>
       <input
         ref={avatarRef}
         id="avatar-link"
@@ -33,8 +46,9 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
         className="popup__item"
         type="url"
         placeholder="Ссылка на аватар"
-        required />
-      <span id="avatar-link-error" className="popup__item-error"></span>
+        required
+        onChange={handleChange}/>
+      <span id="avatar-link-error" className={avatarErrorClassName}>{avatarError}</span>
     </PopupWithForm>
   );
 }
