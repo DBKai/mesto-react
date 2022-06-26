@@ -8,12 +8,15 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isConfirmationDeletePopupOpen, setIsConfirmationDeletePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [willBeDeletedCard, setWillBeDeletedCard] = useState(0);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
@@ -33,7 +36,9 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmationDeletePopupOpen(false);
     setSelectedCard({});
+    setWillBeDeletedCard(0);
   }
 
   function handleCardClick(clickedCard) {
@@ -73,9 +78,15 @@ function App() {
       });
   }
 
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter(c => c._id !== card._id));
+  function handleDeleteCardClick(card) {
+    setWillBeDeletedCard(card._id);
+    setIsConfirmationDeletePopupOpen(true);
+  }
+
+  function handleCardDelete(cardId) {
+    api.deleteCard(cardId).then(() => {
+      setCards((state) => state.filter(c => c._id !== cardId));
+      closeAllPopups();
     });
   }
 
@@ -125,7 +136,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
+        onCardDelete={handleDeleteCardClick}
         cards={cards}/>
       <Footer />
       <EditAvatarPopup
@@ -141,6 +152,11 @@ function App() {
         onClose={closeAllPopups}
         onAddPlace={handleAddPlaceSubmit}/>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+      <DeleteConfirmationPopup
+        isOpen={isConfirmationDeletePopupOpen}
+        onClose={closeAllPopups}
+        handleCardDelete={handleCardDelete}
+        willBeDeletedCard={willBeDeletedCard}/>
     </CurrentUserContext.Provider>
   );
 }
