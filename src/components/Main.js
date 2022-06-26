@@ -1,4 +1,4 @@
-import {useContext}  from "react";
+import {useContext} from "react";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -6,13 +6,13 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCa
   const currentUser = useContext(CurrentUserContext);
   const cardsElements = cards.map((card) => {
     return <Card key={card._id}
-      card={card}
-      onCardClick={onCardClick}
-      onCardLike={onCardLike}
-      onCardDelete={onCardDelete} />
+                 card={card}
+                 onCardClick={onCardClick}
+                 onCardLike={onCardLike}
+                 onCardDelete={onCardDelete}/>
   });
 
-  return(
+  return (
     <main className="content">
       <section className="profile">
         <button className="profile__avatar-edit"

@@ -22,7 +22,7 @@ class Api {
       .then(this._checkResponse)
   }
 
-  setUserInfo({ name, about }) {
+  setUserInfo({name, about}) {
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
       headers: {
@@ -37,7 +37,7 @@ class Api {
       .then(this._checkResponse)
   }
 
-  addCard({ name, link }) {
+  addCard({name, link}) {
     return fetch(`${this._url}cards`, {
       method: 'POST',
       headers: {
@@ -100,4 +100,4 @@ const api = new Api({
   token: `f6ceccbe-01ab-42c9-9385-e3a8b94b887a`
 });
 
-export { api };
+export {api};

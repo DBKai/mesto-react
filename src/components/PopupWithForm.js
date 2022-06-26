@@ -5,7 +5,7 @@ function PopupWithForm({name, title, isOpen, onClose, submitBtnText, children, o
 
   const submitButtonClassName = (`popup__button ${!isValid && "popup__button_inactive"}`);
 
-  return(
+  return (
     <div className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`}
          onMouseDown={handleClosePopup}>
       <div className="popup__container">
